@@ -533,6 +533,7 @@ body.night-mode .hero-overlay {
     opacity: 0;
     transform: translateY(16px);
     transition: opacity 3s ease, transform 2s ease;
+    margin-top: -1rem;
 }
 
 .page-content.content-revealed .hero-content {
@@ -559,7 +560,7 @@ body.night-mode .hero-eyebrow {
 
 .hero-names {
     font-family: 'IM Fell English', serif;
-    font-size: 3.8rem;
+    font-size: 3.2rem;
     font-weight: 400;
     color: #2a1a06;
     line-height: 1.1;
@@ -622,9 +623,20 @@ body.night-mode .hero-venue {
     text-shadow: 0 1px 10px rgba(8, 13, 18, 0.8);
 }
 
+.hero-cta-wrap {
+    background-color: var(--parchment);
+    padding: 2.4rem 1.5rem;
+    text-align: center;
+    transition: background-color 1.5s ease;
+}
+
+body.night-mode .hero-cta-wrap {
+    background-color: var(--night-section);
+}
+
 .hero-cta {
     display: inline-block;
-    margin-top: 8.4rem;
+    width: auto;
     padding: 0.85rem 2.6rem;
     border: 1px solid rgba(201, 168, 76, 0.7);
     border-radius: 40px;
@@ -634,9 +646,7 @@ body.night-mode .hero-venue {
     letter-spacing: 0.22em;
     text-transform: uppercase;
     text-decoration: none;
-    background-color: rgba(245, 240, 228, 0.55);
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
+    background-color: var(--parchment);
     box-shadow: 0 2px 18px rgba(201, 168, 76, 0.18), inset 0 1px 0 rgba(255,255,255,0.35);
     transition: background-color 1.5s ease, color 1.5s ease,
                 box-shadow 1.5s ease, transform 0.25s ease,
@@ -658,7 +668,7 @@ body.night-mode .hero-venue {
 
 body.night-mode .hero-cta {
     color: var(--night-text);
-    background-color: rgba(14, 21, 32, 0.55);
+    background-color: var(--night-section);
     border-color: rgba(212, 170, 92, 0.5);
     box-shadow: 0 2px 18px rgba(212, 170, 92, 0.12), inset 0 1px 0 rgba(255,255,255,0.06);
 }
@@ -785,6 +795,10 @@ body.night-mode .message {
     margin: 0 auto;
     padding: 4rem 1.5rem;
     text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
 .message-eyebrow {
@@ -1544,6 +1558,7 @@ body.night-mode .map-address {
 }
 
 .map-frame-wrapper {
+    position: relative;
     max-width: 860px;
     margin: 0 auto;
     border-radius: 14px;
@@ -1551,6 +1566,13 @@ body.night-mode .map-address {
     border: 1.5px solid var(--border);
     box-shadow: 0 8px 40px rgba(0, 0, 0, 0.1);
     transition: border-color 1.5s ease, box-shadow 1.5s ease;
+}
+
+.map-link-overlay {
+    position: absolute;
+    inset: 0;
+    z-index: 10;
+    cursor: pointer;
 }
 
 body.night-mode .map-frame-wrapper {

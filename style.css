@@ -1,0 +1,1555 @@
+/* ============================================================
+   MEGI — Lord of the Rings Premium Wedding Site
+   Style scope: Envelope entry animation only (Step 1)
+   ============================================================ */
+
+/* ---------- Reset & base ---------- */
+*, *::before, *::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    transition: background-color 1.5s ease, color 1.5s ease, border-color 1.5s ease;
+}
+
+:root {
+    /* Day palette */
+    --parchment:     #f5f0e8;
+    --white:         #fdfbf7;
+    --green-pale:    #d4ead4;
+    --green-mid:     #7aad7a;
+    --green-deep:    #3d6e4a;
+    --purple-pale:   #e0d4f0;
+    --purple-mid:    #9b7fc0;
+    --purple-deep:   #5e3d8a;
+    --gold:          #c9a84c;
+    --gold-lt:       #e8ddb5;
+    --text:          #2d2518;
+    --text-soft:     #6b6050;
+    --border:        #c8b88a;
+
+    /* Night palette */
+    --night-bg:          #080d12;
+    --night-paper:       #0e1520;
+    --night-section:     #0a1018;
+    --night-white:       #0b0f19;
+    --night-text:        #c8e0c8;
+    --night-text-soft:   #a88bcc;
+    --night-green:       #7abf7a;
+    --night-purple:      #b08ed4;
+    --night-gold:        #d4aa5c;
+    --night-border:      #2a3a2a;
+}
+
+html {
+    font-size: 16px;
+    scrollbar-width: thin;
+    scrollbar-color: transparent transparent;
+    transition: scrollbar-color 0.6s ease;
+}
+
+html.scrollable {
+    scrollbar-color: rgba(122, 173, 122, 0.4) transparent;
+}
+
+html::-webkit-scrollbar {
+    width: 8px;
+}
+
+html::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+html::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, 0);
+    border-radius: 4px;
+    transition: background-color 0.6s ease;
+}
+
+html.scrollable::-webkit-scrollbar-thumb {
+    background-color: rgba(122, 173, 122, 0.4);
+}
+
+body.night-mode html.scrollable::-webkit-scrollbar-thumb {
+    background-color: rgba(176, 142, 212, 0.4);
+}
+
+body {
+    min-height: 100vh;
+    background-color: #1a2b1a;
+    overflow: hidden;
+    font-family: 'Noto Serif Georgian', 'Cormorant Garamond', serif;
+    color: var(--text);
+}
+
+body.night-mode {
+    background-color: var(--night-bg);
+}
+
+/* ============================================================
+   DESKTOP NOTICE
+   ============================================================ */
+
+.desktop-notice {
+    display: none;
+}
+
+@media (min-width: 769px) {
+    .desktop-notice {
+        display: flex;
+        position: fixed;
+        inset: 0;
+        z-index: 9999;
+        align-items: center;
+        justify-content: center;
+        background-color: #0e1a0e;
+        background-image: url('bg-night.png');
+        background-size: cover;
+        background-position: center top;
+    }
+
+    .desktop-notice__card {
+        text-align: center;
+        padding: 3rem 2.5rem;
+        max-width: 420px;
+        background-color: rgba(14, 21, 14, 0.78);
+        border: 1px solid rgba(201, 168, 76, 0.35);
+        border-radius: 16px;
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+    }
+
+    .desktop-notice__icon {
+        font-size: 2.8rem;
+        margin-bottom: 1.2rem;
+    }
+
+    .desktop-notice__title {
+        font-family: 'IM Fell English', serif;
+        font-size: 1.9rem;
+        font-weight: 400;
+        color: #e8d9b4;
+        margin-bottom: 1rem;
+    }
+
+    .desktop-notice__body {
+        font-family: 'Noto Serif Georgian', serif;
+        font-size: 0.95rem;
+        line-height: 1.9;
+        color: rgba(200, 224, 200, 0.85);
+        margin-bottom: 0.6rem;
+    }
+
+    .desktop-notice__sub {
+        font-family: 'Cormorant Garamond', serif;
+        font-size: 0.85rem;
+        letter-spacing: 0.08em;
+        color: rgba(201, 168, 76, 0.7);
+    }
+}
+
+/* ============================================================
+   ENVELOPE OVERLAY
+   ============================================================ */
+
+.envelope-parent {
+    position: fixed;
+    inset: 0;
+    z-index: 10;
+    cursor: pointer;
+    overflow: hidden;
+    perspective: 1800px;
+    transform-style: preserve-3d;
+}
+
+.envelope-parent:focus-visible {
+    outline: 2px solid var(--gold);
+    outline-offset: -4px;
+}
+
+/* Shared flap base */
+.envelope-part {
+    position: absolute;
+    width: 0;
+    height: 0;
+    box-sizing: content-box;
+    backface-visibility: hidden;
+    transform-style: preserve-3d;
+    transition: transform 3s cubic-bezier(0.4, 0, 0.2, 1),
+                opacity 8s ease 2.2s;
+}
+
+/* Top flap — downward-pointing triangle */
+.envelope-part.top {
+    z-index: 3;
+    top: 0;
+    left: 0;
+    border-left:  50vw solid transparent;
+    border-right: 50vw solid transparent;
+    border-top:   50vh solid #dde8d8;
+    filter: drop-shadow(0 6px 8px rgba(0, 0, 0, 0.22));
+    transform-origin: top center;
+}
+
+/* Bottom flap — upward-pointing triangle */
+.envelope-part.bottom {
+    z-index: 1;
+    bottom: 0;
+    left: 0;
+    border-left:   50vw solid transparent;
+    border-right:  50vw solid transparent;
+    border-bottom: 50vh solid #c4d4c2;
+    transform-origin: bottom center;
+}
+
+/* Left flap — right-pointing triangle */
+.envelope-part.left {
+    z-index: 2;
+    top: 0;
+    left: 0;
+    border-top:    50vh solid transparent;
+    border-bottom: 50vh solid transparent;
+    border-left:   50vw solid #d0dece;
+    filter: drop-shadow(4px 0 6px rgba(0, 0, 0, 0.15));
+    transform-origin: left center;
+}
+
+/* Right flap — left-pointing triangle */
+.envelope-part.right {
+    z-index: 2;
+    top: 0;
+    right: 0;
+    border-top:    50vh solid transparent;
+    border-bottom: 50vh solid transparent;
+    border-right:  50vw solid #d0dece;
+    filter: drop-shadow(-4px 0 6px rgba(0, 0, 0, 0.15));
+    transform-origin: right center;
+}
+
+/* ---- Open states ---- */
+.envelope-parent.open .envelope-part.top {
+    transform: translateY(-18%) rotateX(74deg) scale(1.02);
+    opacity: 0;
+}
+
+.envelope-parent.open .envelope-part.bottom {
+    transform: translateY(18%) rotateX(-74deg) scale(1.02);
+    opacity: 0;
+}
+
+.envelope-parent.open .envelope-part.left {
+    transform: translateX(-18%) rotateY(-74deg) scale(1.02);
+    opacity: 0;
+}
+
+.envelope-parent.open .envelope-part.right {
+    transform: translateX(18%) rotateY(74deg) scale(1.02);
+    opacity: 0;
+}
+
+/* Stagger delays */
+.envelope-parent.open .envelope-part.top    { transition-delay: 0.4s; }
+.envelope-parent.open .envelope-part.left   { transition-delay: 0.25s; }
+.envelope-parent.open .envelope-part.right  { transition-delay: 0.25s; }
+.envelope-parent.open .envelope-part.bottom { transition-delay: 0.4s; }
+
+/* After open — no longer intercepts clicks */
+.envelope-parent.open {
+    pointer-events: none;
+}
+
+/* ---- Wax seal ---- */
+.wax {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 5;
+    pointer-events: none;
+    transition: opacity 0.8s ease, transform 0.5s ease;
+}
+
+.wax img {
+    width: 10rem;
+    height: auto;
+    display: block;
+}
+
+.envelope-parent.open .wax {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(1.04);
+}
+
+/* ---- Hint text ---- */
+.envelope-hint {
+    position: absolute;
+    bottom: 2.5rem;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 6;
+    color: rgba(45, 37, 24, 0.55);
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.9rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    pointer-events: none;
+    animation: hintBounce 2.5s ease-in-out infinite;
+    transition: opacity 0.4s ease;
+}
+
+.envelope-parent.open .envelope-hint {
+    opacity: 0;
+}
+
+@keyframes hintBounce {
+    0%, 100% { transform: translateX(-50%) translateY(0); }
+    50%       { transform: translateX(-50%) translateY(-6px); }
+}
+
+/* ============================================================
+   PAGE CONTENT (behind the envelope)
+   ============================================================ */
+
+.page-content {
+    visibility: hidden;
+    position: relative;
+    z-index: 0;
+    background-color: var(--parchment);
+    min-height: 100vh;
+}
+
+.page-content.bg-visible {
+    visibility: visible;
+}
+
+body.night-mode .page-content {
+    background-color: var(--night-paper);
+}
+
+/* ============================================================
+   NIGHT TOGGLE
+   ============================================================ */
+
+.night-toggle {
+    position: fixed;
+    top: 1rem;
+    right: 1rem;
+    z-index: 150;
+    width: 52px;
+    height: 28px;
+    border: none;
+    background: none;
+    padding: 0;
+    cursor: pointer;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.8s ease;
+}
+
+.night-toggle.visible {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.night-toggle__track {
+    display: block;
+    width: 52px;
+    height: 28px;
+    border-radius: 14px;
+    background-color: #d4c9a0;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.15);
+    position: relative;
+    transition: background-color 1.5s ease;
+}
+
+body.night-mode .night-toggle__track {
+    background-color: #1e2d40;
+}
+
+.night-toggle__thumb {
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background-color: #fff;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), background-color 1.5s ease;
+}
+
+body.night-mode .night-toggle__thumb {
+    transform: translateX(24px);
+    background-color: #0f1a25;
+}
+
+.night-toggle__icon--sun,
+.night-toggle__icon--moon {
+    position: absolute;
+    font-size: 13px;
+    line-height: 1;
+    transition: opacity 0.3s ease;
+}
+
+.night-toggle__icon--moon {
+    opacity: 0;
+}
+
+body.night-mode .night-toggle__icon--sun {
+    opacity: 0;
+}
+
+body.night-mode .night-toggle__icon--moon {
+    opacity: 1;
+}
+
+/* ============================================================
+   HERO
+   ============================================================ */
+
+.hero {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: start;
+    min-height: 100vh;
+    text-align: center;
+    overflow: hidden;
+    padding: 5rem 1.5rem 0;
+}
+
+/* Day / Night background layers */
+.hero-bg-day,
+.hero-bg-night {
+    position: absolute;
+    inset: 0;
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+    z-index: 0;
+    transition: opacity 1.5s ease;
+}
+
+.hero-bg-day {
+    background-image: url('bg.jpg');
+    opacity: 1;
+}
+
+.hero-bg-night {
+    background-image: url('bg-night.jpg');
+
+    opacity: 0;
+}
+
+body.night-mode .hero-bg-day  { opacity: 0; }
+body.night-mode .hero-bg-night { opacity: 1; }
+
+/* Semi-transparent overlay for text legibility */
+.hero-overlay {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    background-color: rgba(245, 235, 200, 0.18);
+    transition: background-color 1.5s ease;
+}
+
+body.night-mode .hero-overlay {
+    background-color: rgba(8, 13, 18, 0.42);
+}
+
+/* Content block */
+.hero-content {
+    position: relative;
+    z-index: 2;
+    opacity: 0;
+    transform: translateY(16px);
+    transition: opacity 3s ease, transform 2s ease;
+}
+
+.page-content.content-revealed .hero-content {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.hero-eyebrow {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.8rem;
+    font-weight: 400;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: #3d1e00;
+    margin-bottom: 1.2rem;
+    text-shadow: 0 1px 10px rgba(245, 235, 195, 0.7);
+    transition: color 1.5s ease, text-shadow 1.5s ease;
+}
+
+body.night-mode .hero-eyebrow {
+    color: #e8d9b4;
+    text-shadow: 0 1px 10px rgba(8, 13, 18, 0.8);
+}
+
+.hero-names {
+    font-family: 'IM Fell English', serif;
+    font-size: 3.8rem;
+    font-weight: 400;
+    color: #2a1a06;
+    line-height: 1.1;
+    letter-spacing: 0.03em;
+    text-shadow: 0 2px 16px rgba(245, 235, 195, 0.55);
+    transition: color 1.5s ease, text-shadow 1.5s ease;
+}
+
+body.night-mode .hero-names {
+    color: #eee8d8;
+    text-shadow: 0 2px 16px rgba(8, 13, 18, 0.9);
+}
+
+.hero-amp {
+    display: block;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.42em;
+    color: #a07010;
+    letter-spacing: 0.22em;
+    margin: 0.35em 0;
+    text-shadow: 0 1px 10px rgba(245, 235, 195, 0.6);
+    transition: color 1.5s ease, text-shadow 1.5s ease;
+}
+
+body.night-mode .hero-amp {
+    color: var(--night-gold);
+    text-shadow: 0 1px 10px rgba(8, 13, 18, 0.8);
+}
+
+.hero-date {
+    margin-top: 1.4rem;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1rem;
+    font-weight: 400;
+    letter-spacing: 0.22em;
+    color: #3d1e00;
+    text-shadow: 0 1px 10px rgba(245, 235, 195, 0.7);
+    transition: color 1.5s ease, text-shadow 1.5s ease;
+}
+
+body.night-mode .hero-date {
+    color: #e8d9b4;
+    text-shadow: 0 1px 10px rgba(8, 13, 18, 0.8);
+}
+
+.hero-venue {
+    margin-top: 0.4rem;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.85rem;
+    font-weight: bold;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: #4a2870;
+    text-shadow: 0 1px 10px rgba(245, 235, 195, 0.7);
+    transition: color 1.5s ease, text-shadow 1.5s ease;
+}
+
+body.night-mode .hero-venue {
+    color: #d4aaf0;
+    text-shadow: 0 1px 10px rgba(8, 13, 18, 0.8);
+}
+
+.hero-cta {
+    display: inline-block;
+    margin-top: 2.4rem;
+    padding: 0.85rem 2.6rem;
+    border: 1px solid rgba(201, 168, 76, 0.7);
+    border-radius: 40px;
+    color: #2a1a06;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.78rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    text-decoration: none;
+    background-color: rgba(245, 240, 228, 0.55);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    box-shadow: 0 2px 18px rgba(201, 168, 76, 0.18), inset 0 1px 0 rgba(255,255,255,0.35);
+    transition: background-color 1.5s ease, color 1.5s ease,
+                box-shadow 1.5s ease, transform 0.25s ease,
+                border-color 1.5s ease;
+}
+
+.hero-cta:hover {
+    background-color: rgba(201, 168, 76, 0.28);
+    box-shadow: 0 6px 30px rgba(201, 168, 76, 0.32), inset 0 1px 0 rgba(255,255,255,0.4);
+    transform: translateY(-2px);
+    transition: background-color 1.5s ease, color 1.5s ease,
+                box-shadow 1.5s ease, transform 0.25s ease,
+                border-color 1.5s ease;
+}
+
+.hero-cta:active {
+    transform: translateY(0);
+}
+
+body.night-mode .hero-cta {
+    color: var(--night-text);
+    background-color: rgba(14, 21, 32, 0.55);
+    border-color: rgba(212, 170, 92, 0.5);
+    box-shadow: 0 2px 18px rgba(212, 170, 92, 0.12), inset 0 1px 0 rgba(255,255,255,0.06);
+}
+
+body.night-mode .hero-cta:hover {
+    background-color: rgba(212, 170, 92, 0.15);
+    box-shadow: 0 6px 30px rgba(212, 170, 92, 0.22), inset 0 1px 0 rgba(255,255,255,0.08);
+}
+
+/* Elven building at bottom of hero */
+.hero-building {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 3;
+    width: 100%;
+    max-width: 860px;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 1s ease 0.5s;
+}
+
+.page-content.content-revealed .hero-building {
+    opacity: 1;
+}
+
+/* Scroll hint arrow */
+.hero-scroll {
+    position: absolute;
+    bottom: 1.8rem;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 4;
+    color: #4a2e0a;
+    font-size: 1.1rem;
+    opacity: 0;
+    animation: scrollBounce 2.5s ease-in-out infinite;
+    transition: opacity 0.6s ease 1s, color 1.5s ease;
+}
+
+.page-content.content-revealed .hero-scroll {
+    opacity: 0.55;
+}
+
+body.night-mode .hero-scroll {
+    color: var(--night-text-soft);
+}
+
+@keyframes scrollBounce {
+    0%, 100% { transform: translateX(-50%) translateY(0); }
+    50%       { transform: translateX(-50%) translateY(-7px); }
+}
+
+/* ============================================================
+   BREAKPOINTS (481px / 769px / 1025px)
+   ============================================================ */
+
+@media (min-width: 481px) {
+    .hero-names {
+        font-size: 5.5rem;
+    }
+
+    .wax img {
+        width: 16rem;
+    }
+}
+
+@media (min-width: 769px) {
+    .hero-names {
+        font-size: 7rem;
+    }
+
+    .hero-building {
+        max-width: 1000px;
+    }
+
+    .wax img {
+        width: 20rem;
+    }
+}
+
+@media (min-width: 1025px) {
+    .hero-names {
+        font-size: 8.5rem;
+    }
+
+    .hero-building {
+        max-width: 1200px;
+    }
+}
+
+/* ============================================================
+   SCROLL REVEAL
+   ============================================================ */
+
+.reveal {
+    opacity: 0;
+    transform: translateY(32px);
+    transition: opacity 0.9s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+                transform 0.9s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* ============================================================
+   MESSAGE SECTION
+   ============================================================ */
+
+.message {
+    background-color: var(--parchment);
+    transition: background-color 1.5s ease;
+}
+
+body.night-mode .message {
+    background-color: var(--night-section);
+}
+
+.message-inner {
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 4rem 1.5rem;
+    text-align: center;
+}
+
+.message-eyebrow {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.75rem;
+    font-weight: 400;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--gold);
+    transition: color 1.5s ease;
+}
+
+body.night-mode .message-eyebrow {
+    color: var(--night-gold);
+}
+
+.message-rule {
+    width: 56px;
+    height: 1px;
+    background-color: var(--gold);
+    margin: 1.2rem auto;
+    transition: background-color 1.5s ease;
+}
+
+body.night-mode .message-rule {
+    background-color: var(--night-gold);
+}
+
+.message-heading {
+    font-family: 'IM Fell English', 'Cormorant Garamond', serif;
+    font-size: 2rem;
+    font-weight: 400;
+    color: var(--green-deep);
+    line-height: 1.25;
+    margin-bottom: 2rem;
+    transition: color 1.5s ease;
+}
+
+body.night-mode .message-heading {
+    color: var(--night-text);
+}
+
+.message-body {
+    font-family: 'Noto Serif Georgian', 'Cormorant Garamond', serif;
+    font-size: 1rem;
+    line-height: 2;
+    color: var(--text-soft);
+    transition: color 1.5s ease;
+}
+
+body.night-mode .message-body {
+    color: var(--green-pale);
+}
+
+.message-signature {
+    font-family: 'IM Fell English', 'Cormorant Garamond', serif;
+    font-size: 1.3rem;
+    font-weight: 400;
+    color: var(--green-deep);
+    letter-spacing: 0.06em;
+    transition: color 1.5s ease;
+}
+
+body.night-mode .message-signature {
+    color: var(--night-text);
+}
+
+@media (min-width: 769px) {
+    .message-heading {
+        font-size: 2.6rem;
+    }
+
+    .message-body {
+        font-size: 1.05rem;
+    }
+}
+
+/* ============================================================
+   TIMELINE SECTION
+   ============================================================ */
+
+.timeline-section {
+    background-color: var(--parchment);
+    padding: 5rem 1.5rem 6rem;
+    transition: background-color 1.5s ease;
+}
+
+body.night-mode .timeline-section {
+    background-color: var(--night-section);
+}
+
+.timeline-header {
+    text-align: center;
+    margin-bottom: 4rem;
+}
+
+.timeline-eyebrow {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.75rem;
+    font-weight: 400;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--gold);
+    transition: color 1.5s ease;
+}
+
+body.night-mode .timeline-eyebrow {
+    color: var(--night-gold);
+}
+
+.timeline-heading {
+    font-family: 'IM Fell English', 'Cormorant Garamond', serif;
+    font-size: 2rem;
+    font-weight: 400;
+    color: var(--green-deep);
+    line-height: 1.25;
+    transition: color 1.5s ease;
+}
+
+body.night-mode .timeline-heading {
+    color: var(--night-text);
+}
+
+/* Vertical line */
+.timeline {
+    position: relative;
+    max-width: 760px;
+    margin: 0 auto;
+}
+
+.timeline::before {
+    content: '';
+    position: absolute;
+    left: 20px;
+    top: 0;
+    bottom: 0;
+    width: 1px;
+    background-color: var(--gold);
+    opacity: 0.4;
+    transition: background-color 1.5s ease;
+}
+
+body.night-mode .timeline::before {
+    background-color: var(--night-gold);
+}
+
+.timeline-step {
+    position: relative;
+    padding-left: 60px;
+    margin-bottom: 2.5rem;
+    cursor: pointer;
+}
+
+.timeline-step:last-child {
+    margin-bottom: 0;
+}
+
+/* Roman numeral dot */
+.timeline-dot {
+    position: absolute;
+    left: 0;
+    top: 0.4rem;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 1.5px solid var(--gold);
+    background-color: var(--parchment);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'IM Fell English', serif;
+    font-size: 0.7rem;
+    color: var(--gold);
+    z-index: 2;
+    transition: background-color 1.5s ease, border-color 1.5s ease, color 1.5s ease;
+}
+
+body.night-mode .timeline-dot {
+    background-color: var(--night-section);
+    border-color: var(--night-gold);
+    color: var(--night-gold);
+}
+
+.timeline-card {
+    background-color: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 1.4rem 1.6rem;
+    box-shadow: 0 3px 18px rgba(0, 0, 0, 0.05);
+    transition: transform 0.25s ease, box-shadow 0.25s ease,
+                background-color 1.5s ease, border-color 1.5s ease;
+}
+
+body.night-mode .timeline-card {
+    background-color: var(--night-white);
+    border-color: var(--night-border);
+}
+
+.timeline-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 28px rgba(0, 0, 0, 0.09);
+}
+
+.tcard-title {
+    font-family: 'IM Fell English', 'Noto Serif Georgian', serif;
+    font-size: 1.3rem;
+    font-weight: 400;
+    color: var(--green-deep);
+    margin-bottom: 0.5rem;
+    transition: color 1.5s ease;
+}
+
+body.night-mode .tcard-title {
+    color: var(--night-text);
+}
+
+.tcard-location {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.9rem;
+    color: var(--text-soft);
+    transition: color 1.5s ease;
+}
+
+body.night-mode .tcard-location {
+    color: var(--night-text-soft);
+}
+
+.tcard-icon {
+    width: 14px;
+    height: 14px;
+    flex-shrink: 0;
+    color: var(--gold);
+    transition: color 1.5s ease;
+}
+
+body.night-mode .tcard-icon {
+    color: var(--night-gold);
+}
+
+/* Desktop: alternating left/right */
+@media (min-width: 769px) {
+    .timeline::before {
+        left: 50%;
+        transform: translateX(-50%);
+    }
+
+    .timeline-step {
+        display: flex;
+        align-items: flex-start;
+        padding-left: 0;
+        margin-bottom: 3.5rem;
+    }
+
+    .timeline-step:nth-child(odd) {
+        flex-direction: row;
+        padding-right: calc(50% + 2.5rem);
+        text-align: right;
+    }
+
+    .timeline-step:nth-child(even) {
+        flex-direction: row-reverse;
+        padding-left: calc(50% + 2.5rem);
+        text-align: left;
+    }
+
+    .timeline-dot {
+        position: absolute;
+        left: 50%;
+        top: 0.4rem;
+        transform: translateX(-50%);
+    }
+
+    .timeline-step:nth-child(odd) .tcard-location {
+        justify-content: flex-end;
+    }
+
+    .timeline-heading {
+        font-size: 2.6rem;
+    }
+}
+
+/* ============================================================
+   TIMELINE POPUP
+   ============================================================ */
+
+.popup-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 200;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(0, 0, 0, 0.38);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.25s ease;
+}
+
+.popup-overlay.active {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.popup-box {
+    background-color: var(--white);
+    border-radius: 14px;
+    padding: 2rem 2.2rem;
+    max-width: 400px;
+    width: calc(100% - 3rem);
+    border-top: 3px solid var(--gold);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.18);
+    transform: translateY(18px) scale(0.97);
+    opacity: 0;
+    transition: transform 0.25s ease, opacity 0.25s ease,
+                background-color 1.5s ease, border-color 1.5s ease,
+                border-top-color 1.5s ease;
+}
+
+.popup-overlay.active .popup-box {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+}
+
+body.night-mode .popup-box {
+    background-color: var(--night-white);
+    border-top-color: var(--night-gold);
+}
+
+.popup-label {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.72rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 0.4rem;
+    transition: color 1.5s ease;
+}
+
+body.night-mode .popup-label {
+    color: var(--night-gold);
+}
+
+.popup-title {
+    font-family: 'IM Fell English', 'Noto Serif Georgian', serif;
+    font-size: 1.5rem;
+    font-weight: 400;
+    color: var(--green-deep);
+    margin-bottom: 0.3rem;
+    transition: color 1.5s ease;
+}
+
+body.night-mode .popup-title {
+    color: var(--night-text);
+}
+
+.popup-location {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.85rem;
+    letter-spacing: 0.1em;
+    color: var(--purple-mid);
+    margin-bottom: 1rem;
+    transition: color 1.5s ease;
+}
+
+body.night-mode .popup-location {
+    color: var(--night-purple);
+}
+
+.popup-body {
+    font-family: 'Noto Serif Georgian', 'Cormorant Garamond', serif;
+    font-size: 0.95rem;
+    line-height: 1.9;
+    color: var(--text-soft);
+    transition: color 1.5s ease;
+}
+
+body.night-mode .popup-body {
+    color: var(--night-text-soft);
+}
+
+.popup-close {
+    margin-top: 1.4rem;
+    display: inline-block;
+    background: none;
+    border: none;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.82rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--text-soft);
+    cursor: pointer;
+    padding: 0;
+    transition: background-color 1.5s ease, color 1.5s ease, border-color 1.5s ease;
+}
+
+.popup-close:hover {
+    color: var(--green-deep);
+    transition: background-color 1.5s ease, color 1.5s ease, border-color 1.5s ease;
+}
+
+body.night-mode .popup-close {
+    color: var(--night-text-soft);
+}
+
+body.night-mode .popup-close:hover {
+    color: var(--night-text);
+}
+
+/* ============================================================
+   RSVP SECTION
+   ============================================================ */
+
+.rsvp-section {
+    background-color: var(--parchment);
+    padding: 5rem 1.5rem 6rem;
+    transition: background-color 1.5s ease;
+}
+
+body.night-mode .rsvp-section {
+    background-color: var(--night-section);
+}
+
+.rsvp-inner {
+    max-width: 480px;
+    margin: 0 auto;
+}
+
+.rsvp-header {
+    text-align: center;
+    margin-bottom: 2.8rem;
+}
+
+.rsvp-eyebrow {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.75rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--gold);
+    transition: color 1.5s ease;
+}
+
+body.night-mode .rsvp-eyebrow {
+    color: var(--night-gold);
+}
+
+.rsvp-heading {
+    font-family: 'IM Fell English', 'Cormorant Garamond', serif;
+    font-size: 2rem;
+    font-weight: 400;
+    color: var(--green-deep);
+    line-height: 1.25;
+    margin-bottom: 0.6rem;
+    transition: color 1.5s ease;
+}
+
+body.night-mode .rsvp-heading {
+    color: var(--night-text);
+}
+
+.rsvp-subheading {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.88rem;
+    letter-spacing: 0.1em;
+    color: var(--text-soft);
+    transition: color 1.5s ease;
+}
+
+body.night-mode .rsvp-subheading {
+    color: var(--night-text-soft);
+}
+
+/* Form */
+.rsvp-form {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.rsvp-field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.rsvp-label {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.78rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--text-soft);
+    transition: color 1.5s ease;
+}
+
+body.night-mode .rsvp-label {
+    color: var(--night-text-soft);
+}
+
+.rsvp-input {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    background-color: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    font-family: 'Noto Serif Georgian', serif;
+    font-size: 0.95rem;
+    color: var(--text);
+    outline: none;
+    transition: background-color 1.5s ease, color 1.5s ease, border-color 1.5s ease,
+                box-shadow 0.2s ease;
+}
+
+.rsvp-input:focus {
+    border-color: var(--gold);
+    box-shadow: 0 0 0 3px rgba(201, 168, 76, 0.15);
+}
+
+body.night-mode .rsvp-input {
+    background-color: var(--night-white);
+    border-color: var(--night-border);
+    color: var(--night-text);
+}
+
+body.night-mode .rsvp-input:focus {
+    border-color: var(--night-gold);
+    box-shadow: 0 0 0 3px rgba(212, 170, 92, 0.12);
+}
+
+/* Radio cards */
+.rsvp-radio-group {
+    display: flex;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+}
+
+.rsvp-radio-card {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 1rem 0.5rem;
+    background-color: var(--white);
+    border: 1.5px solid var(--border);
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background-color 1.5s ease, color 1.5s ease, border-color 1.5s ease,
+                box-shadow 0.2s ease;
+}
+
+.rsvp-radio-card input[type="radio"] {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.rsvp-radio-face {
+    font-size: 1.2rem;
+    color: var(--text-soft);
+    transition: color 1.5s ease;
+}
+
+.rsvp-radio-text {
+    font-family: 'Noto Serif Georgian', serif;
+    font-size: 0.82rem;
+    color: var(--text-soft);
+    text-align: center;
+    transition: color 1.5s ease;
+}
+
+.rsvp-radio-card--sm {
+    flex: 0 0 auto;
+    width: 56px;
+    padding: 0.7rem 0.3rem;
+}
+
+/* Checked state */
+.rsvp-radio-card:has(input:checked) {
+    border-color: var(--gold);
+    background-color: rgba(201, 168, 76, 0.08);
+    box-shadow: 0 2px 12px rgba(201, 168, 76, 0.18);
+}
+
+.rsvp-radio-card:has(input:checked) .rsvp-radio-face,
+.rsvp-radio-card:has(input:checked) .rsvp-radio-text {
+    color: var(--green-deep);
+}
+
+body.night-mode .rsvp-radio-card {
+    background-color: var(--night-white);
+    border-color: var(--night-border);
+}
+
+body.night-mode .rsvp-radio-card:has(input:checked) {
+    border-color: var(--night-gold);
+    background-color: rgba(212, 170, 92, 0.1);
+    box-shadow: 0 2px 12px rgba(212, 170, 92, 0.14);
+}
+
+body.night-mode .rsvp-radio-card:has(input:checked) .rsvp-radio-face,
+body.night-mode .rsvp-radio-card:has(input:checked) .rsvp-radio-text {
+    color: var(--night-text);
+}
+
+body.night-mode .rsvp-radio-face,
+body.night-mode .rsvp-radio-text {
+    color: var(--night-text-soft);
+}
+
+/* Guests field reveal */
+.rsvp-guests-field[hidden] {
+    display: none;
+}
+
+.rsvp-guests-field {
+    animation: rsvpFadeIn 0.35s ease;
+}
+
+@keyframes rsvpFadeIn {
+    from { opacity: 0; transform: translateY(8px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Submit button */
+.rsvp-submit {
+    align-self: center;
+    padding: 0.85rem 2.6rem;
+    border: 1px solid rgba(201, 168, 76, 0.7);
+    border-radius: 40px;
+    color: var(--green-deep);
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.78rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    cursor: pointer;
+    background-color: rgba(245, 240, 228, 0.55);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    box-shadow: 0 2px 18px rgba(201, 168, 76, 0.18), inset 0 1px 0 rgba(255,255,255,0.35);
+    transition: background-color 1.5s ease, color 1.5s ease,
+                box-shadow 1.5s ease, transform 0.25s ease,
+                border-color 1.5s ease;
+}
+
+.rsvp-submit:hover {
+    background-color: rgba(201, 168, 76, 0.2);
+    transform: translateY(-2px);
+}
+
+.rsvp-submit:active {
+    transform: translateY(0);
+}
+
+body.night-mode .rsvp-submit {
+    color: var(--night-text);
+    background-color: rgba(14, 21, 32, 0.55);
+    border-color: rgba(212, 170, 92, 0.5);
+    box-shadow: 0 2px 18px rgba(212, 170, 92, 0.12), inset 0 1px 0 rgba(255,255,255,0.06);
+}
+
+/* Thank-you state */
+.rsvp-thanks {
+    text-align: center;
+    padding: 3rem 1rem;
+    animation: rsvpFadeIn 0.6s ease;
+}
+
+.rsvp-thanks-icon {
+    font-size: 2.4rem;
+    margin-bottom: 1rem;
+}
+
+.rsvp-thanks-title {
+    font-family: 'IM Fell English', serif;
+    font-size: 2rem;
+    font-weight: 400;
+    color: var(--green-deep);
+    margin-bottom: 0.8rem;
+    transition: color 1.5s ease;
+}
+
+body.night-mode .rsvp-thanks-title {
+    color: var(--night-text);
+}
+
+.rsvp-thanks-body {
+    font-family: 'Noto Serif Georgian', serif;
+    font-size: 0.95rem;
+    line-height: 1.9;
+    color: var(--text-soft);
+    transition: color 1.5s ease;
+}
+
+body.night-mode .rsvp-thanks-body {
+    color: var(--night-text-soft);
+}
+
+/* ============================================================
+   MAP SECTION
+   ============================================================ */
+
+.map-section {
+    background-color: var(--parchment);
+    padding: 5rem 1.5rem 6rem;
+    text-align: center;
+    transition: background-color 1.5s ease;
+}
+
+body.night-mode .map-section {
+    background-color: var(--night-paper);
+}
+
+.map-header {
+    margin-bottom: 2.8rem;
+}
+
+.map-eyebrow {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.75rem;
+    font-weight: 400;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--gold);
+    transition: color 1.5s ease;
+}
+
+body.night-mode .map-eyebrow {
+    color: var(--night-gold);
+}
+
+.map-heading {
+    font-family: 'IM Fell English', 'Cormorant Garamond', serif;
+    font-size: 2rem;
+    font-weight: 400;
+    color: var(--green-deep);
+    line-height: 1.25;
+    margin-bottom: 0.6rem;
+    transition: color 1.5s ease;
+}
+
+body.night-mode .map-heading {
+    color: var(--night-text);
+}
+
+.map-address {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.9rem;
+    letter-spacing: 0.15em;
+    color: var(--text-soft);
+    transition: color 1.5s ease;
+}
+
+body.night-mode .map-address {
+    color: var(--night-text-soft);
+}
+
+.map-frame-wrapper {
+    max-width: 860px;
+    margin: 0 auto;
+    border-radius: 14px;
+    overflow: hidden;
+    border: 1.5px solid var(--border);
+    box-shadow: 0 8px 40px rgba(0, 0, 0, 0.1);
+    transition: border-color 1.5s ease, box-shadow 1.5s ease;
+}
+
+body.night-mode .map-frame-wrapper {
+    border-color: var(--night-border);
+    box-shadow: 0 8px 40px rgba(0, 0, 0, 0.4);
+}
+
+.map-iframe {
+    display: block;
+    width: 100%;
+    height: 340px;
+    border: none;
+    transition: filter 1.5s ease;
+}
+
+body.night-mode .map-iframe {
+    filter: invert(90%) hue-rotate(180deg);
+}
+
+.map-cta-wrap {
+    margin-top: 2rem;
+}
+
+.map-directions {
+    display: inline-block;
+    padding: 0.7rem 2rem;
+    border: 1.5px solid var(--gold);
+    color: var(--green-deep);
+    font-family: 'Noto Serif Georgian', 'Cormorant Garamond', serif;
+    font-size: 0.8rem;
+    letter-spacing: 0.12em;
+    text-decoration: none;
+    background-color: rgba(245, 240, 232, 0.5);
+    border-radius: 2px;
+    transition: background-color 1.5s ease, color 1.5s ease, border-color 1.5s ease;
+}
+
+.map-directions:hover {
+    background-color: rgba(201, 168, 76, 0.15);
+    transition: background-color 1.5s ease, color 1.5s ease, border-color 1.5s ease;
+}
+
+body.night-mode .map-directions {
+    color: var(--night-text);
+    background-color: rgba(14, 21, 32, 0.5);
+    border-color: var(--night-gold);
+}
+
+body.night-mode .map-directions:hover {
+    background-color: rgba(201, 168, 76, 0.1);
+}
+
+@media (min-width: 769px) {
+    .map-heading {
+        font-size: 2.6rem;
+    }
+
+    .map-iframe {
+        height: 460px;
+    }
+}
+
+@media (min-width: 1025px) {
+    .map-iframe {
+        height: 520px;
+    }
+}

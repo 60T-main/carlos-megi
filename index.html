@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="ka">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Carlos & Megi</title>
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=IM+Fell+English:wght@400&family=Cormorant+Garamond:wght@300;400&family=Noto+Serif+Georgian:wght@400;500&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="style.css">
+    </head>
+    <body>
+        <!-- ===== DESKTOP NOTICE ===== -->
+        <div class="desktop-notice" aria-hidden="true">
+            <div class="desktop-notice__card">
+                <p class="desktop-notice__icon">📱</p>
+                <h2 class="desktop-notice__title">გახსენი მობილურზე</h2>
+                <p class="desktop-notice__body">ეს მოსაწვევი შექმნილია მობილური მოწყობილობისთვის. გთხოვთ, გახსნათ თქვენი ტელეფონით.</p>
+                <p class="desktop-notice__sub">Abre esta invitación en tu móvil.</p>
+            </div>
+        </div>
+        <!-- ===== ENVELOPE OVERLAY ===== -->
+        <div
+            class="envelope-parent"
+            id="envelope"
+            role="button"
+            tabindex="0"
+            aria-label="Open invitation"
+        >
+            <div class="wax">
+                <img src="wax.png" alt="">
+            </div>
+            <div class="envelope-part top"></div>
+            <div class="envelope-part right"></div>
+            <div class="envelope-part bottom"></div>
+            <div class="envelope-part left"></div>
+            <p class="envelope-hint" aria-hidden="true">Open the invitation</p>
+        </div>
+        <!-- ===== NIGHT TOGGLE (appears after envelope opens) ===== -->
+        <button
+            class="night-toggle"
+            id="night-toggle"
+            aria-label="Toggle night mode"
+            aria-checked="false"
+            role="switch"
+        >
+            <span class="night-toggle__track">
+                <span class="night-toggle__thumb">
+                    <span class="night-toggle__icon--sun">☀️</span>
+                    <span class="night-toggle__icon--moon">🌙</span>
+                </span>
+            </span>
+        </button>
+        <!-- ===== PAGE CONTENT (revealed after envelope opens) ===== -->
+        <div class="page-content" id="page-content">
+            <!-- ===== HERO ===== -->
+            <section class="hero" id="hero">
+                <div class="hero-bg-day"></div>
+                <div class="hero-bg-night"></div>
+                <div class="hero-overlay"></div>
+                <div class="hero-content">
+                    <p class="hero-eyebrow" data-ka="ქორწილის მოწვევა" data-es="Invitación de Boda">ქორწილის მოწვევა</p>
+                    <h1 class="hero-names">
+                        Carlos
+                        <span class="hero-amp">&amp;</span>
+                        Megi
+                    </h1>
+                    <p class="hero-date">24 · 08 · 2026</p>
+                    <p class="hero-venue">Chateau Vartsikhe</p>
+                    <a
+                        href="#rsvp"
+                        class="hero-cta"
+                        data-ka="დაადასტურეთ დასწრება"
+                        data-es="Confirmar Asistencia"
+                    >დაადასტურეთ დასწრება</a>
+                </div>
+                <img class="hero-building" src="elven-building.jpg" alt="">
+                <span class="hero-scroll" aria-hidden="true">↓</span>
+            </section>
+            <!-- ===== MESSAGE ===== -->
+            <section class="message" id="message">
+                <div class="message-inner reveal">
+                    <p class="message-eyebrow" data-ka="ჩვენგან თქვენთვის" data-es="De Nosotros Para Vosotros">ჩვენგან თქვენთვის</p>
+                    <div class="message-rule"></div>
+                    <h2 class="message-heading" data-ka="ძვირფასო სტუმრებო" data-es="Queridos Invitados">ძვირფასო სტუმრებო</h2>
+                    <p class="message-body" data-ka="ჩვენი სიყვარულის ისტორიას ახალი, ულამაზესი თავი ემატება და ჩვენთვის დიდი ბედნიერებაა, რომ ამ განსაკუთრებულ დღეს თქვენთან ერთად გავიზიარებთ. გვინდა, რომ ეს დღე არა მხოლოდ ჩვენი, არამედ ყველა ჩვენი ახლობლის იყოს." data-es="Un nuevo y hermoso capítulo se añade a nuestra historia de amor, y es nuestra mayor alegría compartir este día especial con vosotros. Queremos que este día sea nuestro, pero también de cada persona que ha estado a nuestro lado.">ჩვენი სიყვარულის ისტორიას ახალი, ულამაზესი თავი ემატება და ჩვენთვის დიდი ბედნიერებაა, რომ ამ განსაკუთრებულ დღეს თქვენთან ერთად გავიზიარებთ. გვინდა, რომ ეს დღე არა მხოლოდ ჩვენი, არამედ ყველა ჩვენი ახლობლის იყოს.</p>
+                    <div class="message-rule"></div>
+                    <p class="message-signature">Carlos &amp; Megi</p>
+                </div>
+            </section>
+            <!-- ===== TIMELINE ===== -->
+            <section class="timeline-section" id="timeline">
+                <div class="timeline-header reveal">
+                    <p class="timeline-eyebrow" data-ka="დღის განრიგი" data-es="Programa del Día">დღის განრიგი</p>
+                    <div class="message-rule"></div>
+                    <h2 class="timeline-heading" data-ka="ჩვენი განსაკუთრებული დღე" data-es="Nuestro Día Especial">ჩვენი განსაკუთრებული დღე</h2>
+                </div>
+                <div class="timeline">
+                    <div class="timeline-step reveal" data-popup="ceremony">
+                        <div class="timeline-dot">I</div>
+                        <div class="timeline-card">
+                            <h3 class="tcard-title" data-ka="ჯვრისწერა" data-es="Ceremonia">ჯვრისწერა</h3>
+                            <p class="tcard-location">
+                                <svg
+                                    class="tcard-icon"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    aria-hidden="true"
+                                >
+                                    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+                                    <circle cx="12" cy="10" r="3"/>
+                                </svg>
+                                Chateau Vartsikhe
+                            </p>
+                        </div>
+                    </div>
+                    <div class="timeline-step reveal" data-popup="photoshoot">
+                        <div class="timeline-dot">II</div>
+                        <div class="timeline-card">
+                            <h3 class="tcard-title" data-ka="ფოტოსესია" data-es="Sesión de Fotos">ფოტოსესია</h3>
+                            <p class="tcard-location">
+                                <svg
+                                    class="tcard-icon"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    aria-hidden="true"
+                                >
+                                    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+                                    <circle cx="12" cy="10" r="3"/>
+                                </svg>
+                                Chateau Vartsikhe
+                            </p>
+                        </div>
+                    </div>
+                    <div class="timeline-step reveal" data-popup="reception">
+                        <div class="timeline-dot">III</div>
+                        <div class="timeline-card">
+                            <h3 class="tcard-title" data-ka="ვახშამი" data-es="Recepción">ვახშამი</h3>
+                            <p class="tcard-location">
+                                <svg
+                                    class="tcard-icon"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    aria-hidden="true"
+                                >
+                                    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+                                    <circle cx="12" cy="10" r="3"/>
+                                </svg>
+                                Chateau Vartsikhe
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!-- ===== RSVP ===== -->
+            <section class="rsvp-section" id="rsvp">
+                <div class="rsvp-inner">
+                    <div class="rsvp-header reveal">
+                        <p class="rsvp-eyebrow" data-ka="RSVP" data-es="RSVP">RSVP</p>
+                        <div class="message-rule"></div>
+                        <h2 class="rsvp-heading" data-ka="დაადასტურეთ დასწრება" data-es="Confirmar Asistencia">დაადასტურეთ დასწრება</h2>
+                        <p class="rsvp-subheading" data-ka="გთხოვთ, გვიპასუხოთ 1 აგვისტომდე" data-es="Por favor confirmad antes del 1 de agosto">გთხოვთ, გვიპასუხოთ 1 აგვისტომდე</p>
+                    </div>
+                    <!-- Form -->
+                    <form class="rsvp-form reveal" id="rsvp-form" novalidate>
+                        <div class="rsvp-field">
+                            <label
+                                class="rsvp-label"
+                                for="rsvp-name"
+                                data-ka="სახელი და გვარი"
+                                data-es="Nombre"
+                            >სახელი და გვარი</label>
+                            <input
+                                class="rsvp-input"
+                                type="text"
+                                id="rsvp-name"
+                                name="name"
+                                autocomplete="name"
+                                required
+                            >
+                        </div>
+                        <div class="rsvp-field">
+                            <p class="rsvp-label" data-ka="დასწრება" data-es="Asistencia">დასწრება</p>
+                            <div class="rsvp-radio-group">
+                                <label class="rsvp-radio-card">
+                                    <input
+                                        type="radio"
+                                        name="attending"
+                                        value="yes"
+                                        required
+                                    >
+                                    <span class="rsvp-radio-face">✓</span>
+                                    <span class="rsvp-radio-text" data-ka="ვესწრები" data-es="Asistiré">ვესწრები</span>
+                                </label>
+                                <label class="rsvp-radio-card">
+                                    <input type="radio" name="attending" value="no">
+                                    <span class="rsvp-radio-face">✗</span>
+                                    <span class="rsvp-radio-text" data-ka="ვერ ვესწრები" data-es="No podré">ვერ ვესწრები</span>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="rsvp-field rsvp-guests-field" id="rsvp-guests-field" hidden>
+                            <p class="rsvp-label" data-ka="სტუმრების რაოდენობა" data-es="Número de invitados">სტუმრების რაოდენობა</p>
+                            <div class="rsvp-radio-group">
+                                <label class="rsvp-radio-card rsvp-radio-card--sm">
+                                    <input type="radio" name="guests" value="1">
+                                    <span class="rsvp-radio-text">1</span>
+                                </label>
+                                <label class="rsvp-radio-card rsvp-radio-card--sm">
+                                    <input type="radio" name="guests" value="2">
+                                    <span class="rsvp-radio-text">2</span>
+                                </label>
+                                <label class="rsvp-radio-card rsvp-radio-card--sm">
+                                    <input type="radio" name="guests" value="3">
+                                    <span class="rsvp-radio-text">3</span>
+                                </label>
+                                <label class="rsvp-radio-card rsvp-radio-card--sm">
+                                    <input type="radio" name="guests" value="4+">
+                                    <span class="rsvp-radio-text">4+</span>
+                                </label>
+                            </div>
+                        </div>
+                        <button
+                            class="rsvp-submit"
+                            type="submit"
+                            data-ka="გაგზავნა"
+                            data-es="Enviar"
+                        >გაგზავნა</button>
+                    </form>
+                    <!-- Thank-you state -->
+                    <div class="rsvp-thanks" id="rsvp-thanks" hidden>
+                        <p class="rsvp-thanks-icon">🌿</p>
+                        <h3 class="rsvp-thanks-title" data-ka="გმადლობთ!" data-es="¡Gracias!">გმადლობთ!</h3>
+                        <p class="rsvp-thanks-body" id="rsvp-thanks-body"></p>
+                    </div>
+                </div>
+            </section>
+            <!-- ===== MAP ===== -->
+            <section class="map-section" id="map">
+                <div class="map-header reveal">
+                    <p class="map-eyebrow" data-ka="მდებარეობა" data-es="Ubicación">მდებარეობა</p>
+                    <div class="message-rule"></div>
+                    <h2 class="map-heading">Chateau Vartsikhe</h2>
+                    <p class="map-address" data-ka="ვანი, საქართველო" data-es="Vani, Georgia">ვანი, საქართველო</p>
+                </div>
+                <div class="map-frame-wrapper reveal">
+                    <iframe
+                        class="map-iframe"
+                        src="https://maps.google.com/maps?q=Chateau+Vartsikhe,Vani,Georgia&output=embed&z=15"
+                        allowfullscreen=""
+                        loading="lazy"
+                        referrerpolicy="no-referrer-when-downgrade"
+                        title="Chateau Vartsikhe location"
+                    ></iframe>
+                </div>
+                <div class="map-cta-wrap reveal">
+                    <a
+                        class="map-directions"
+                        href="https://maps.google.com/maps?q=Chateau+Vartsikhe,Vani,Georgia"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        data-ka="გზამკვლევი"
+                        data-es="Cómo llegar"
+                    >გზამკვლევი</a>
+                </div>
+            </section>
+        </div>
+        <!-- ===== TIMELINE POPUP ===== -->
+        <div
+            class="popup-overlay"
+            id="popup-overlay"
+            role="dialog"
+            aria-modal="true"
+            aria-hidden="true"
+        >
+            <div class="popup-box" id="popup-box">
+                <p class="popup-label" id="popup-label"></p>
+                <h3 class="popup-title" id="popup-title"></h3>
+                <p class="popup-location" id="popup-location"></p>
+                <p class="popup-body" id="popup-body"></p>
+                <button
+                    class="popup-close"
+                    id="popup-close"
+                    data-ka="დახურვა"
+                    data-es="Cerrar"
+                >დახურვა ×</button>
+            </div>
+        </div>
+        <script src="script.js"></script>
+    </body>
+</html>

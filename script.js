@@ -9,6 +9,67 @@
     var envelope    = document.getElementById('envelope');
     var pageContent = document.getElementById('page-content');
     var nightToggle = document.getElementById('night-toggle');
+    var musicToggle = document.getElementById('music-toggle');
+    var bgAudio     = document.getElementById('bg-audio');
+
+    /* ---- Audio fade helpers ---- */
+    var fadeInterval = null;
+
+    function fadeIn(duration) {
+        bgAudio.volume = 0;
+        bgAudio.play().catch(function () {}); // autoplay policy guard
+        clearInterval(fadeInterval);
+        var steps = 40;
+        var stepTime = duration / steps;
+        var stepVol  = 1 / steps;
+        fadeInterval = setInterval(function () {
+            bgAudio.volume = Math.min(1, bgAudio.volume + stepVol);
+            if (bgAudio.volume >= 1) clearInterval(fadeInterval);
+        }, stepTime);
+    }
+
+    function fadeOut(duration, cb) {
+        clearInterval(fadeInterval);
+        var steps = 20;
+        var stepTime = duration / steps;
+        var stepVol  = bgAudio.volume / steps;
+        fadeInterval = setInterval(function () {
+            bgAudio.volume = Math.max(0, bgAudio.volume - stepVol);
+            if (bgAudio.volume <= 0) {
+                clearInterval(fadeInterval);
+                bgAudio.pause();
+                if (cb) cb();
+            }
+        }, stepTime);
+    }
+
+    /* ---- Music toggle button ---- */
+    musicToggle.addEventListener('click', function () {
+        if (bgAudio.paused) {
+            fadeIn(800);
+            musicToggle.classList.add('playing');
+            musicToggle.setAttribute('aria-label', 'Pause music');
+            musicToggle.setAttribute('aria-pressed', 'true');
+        } else {
+            fadeOut(600);
+            musicToggle.classList.remove('playing');
+            musicToggle.setAttribute('aria-label', 'Play music');
+            musicToggle.setAttribute('aria-pressed', 'false');
+        }
+    });
+
+    /* ---- Pause when tab/app goes hidden, resume when visible ---- */
+    document.addEventListener('visibilitychange', function () {
+        if (document.hidden) {
+            if (!bgAudio.paused) {
+                bgAudio.pause();
+            }
+        } else {
+            if (musicToggle.classList.contains('playing')) {
+                bgAudio.play().catch(function () {});
+            }
+        }
+    });
 
     /* ---- Restore night mode preference before paint ---- */
     if (localStorage.getItem('nightMode') === '1') {
@@ -43,6 +104,14 @@
 
             pageContent.classList.add('content-revealed');
             nightToggle.classList.add('visible');
+            musicToggle.classList.add('visible');
+
+            // Auto-start music with fade-in (browser may block until user interaction;
+            // the envelope click counts as a gesture so this normally succeeds)
+            fadeIn(3000);
+            musicToggle.classList.add('playing');
+            musicToggle.setAttribute('aria-label', 'Pause music');
+            musicToggle.setAttribute('aria-pressed', 'true');
         }, 1200);
     }
 

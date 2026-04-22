@@ -36,6 +36,53 @@
             <div class="envelope-part left"></div>
             <p class="envelope-hint" aria-hidden="true">Open the invitation</p>
         </div>
+        <!-- ===== MUSIC TOGGLE ===== -->
+        <button
+            class="music-toggle"
+            id="music-toggle"
+            aria-label="Play music"
+            aria-pressed="false"
+        >
+            <span class="music-toggle__track-wrap">
+                <span class="music-toggle__icon music-toggle__icon--play" aria-hidden="true">
+                    <svg
+                        viewBox="0 0 24 24"
+                        fill="currentColor"
+                        width="14"
+                        height="14"
+                    >
+                        <polygon points="5,3 19,12 5,21"/>
+                    </svg>
+                </span>
+                <span class="music-toggle__icon music-toggle__icon--pause" aria-hidden="true">
+                    <svg
+                        viewBox="0 0 24 24"
+                        fill="currentColor"
+                        width="14"
+                        height="14"
+                    >
+                        <rect
+                            x="5"
+                            y="3"
+                            width="4"
+                            height="18"
+                        />
+                        <rect
+                            x="15"
+                            y="3"
+                            width="4"
+                            height="18"
+                        />
+                    </svg>
+                </span>
+            </span>
+        </button>
+        <audio
+            id="bg-audio"
+            src="music.mp3"
+            loop
+            preload="none"
+        ></audio>
         <!-- ===== NIGHT TOGGLE (appears after envelope opens) ===== -->
         <button
             class="night-toggle"

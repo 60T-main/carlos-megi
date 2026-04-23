@@ -43,9 +43,15 @@
 
     function fadeOut(duration, cb) {
         clearInterval(fadeInterval);
+        // Guard: if volume is already 0, just pause immediately
+        if (bgAudio.volume <= 0) {
+            bgAudio.pause();
+            if (cb) cb();
+            return;
+        }
         var steps = 20;
         var stepTime = duration / steps;
-        var stepVol  = bgAudio.volume / steps;
+        var stepVol  = Math.max(bgAudio.volume / steps, 0.005);
         fadeInterval = setInterval(function () {
             bgAudio.volume = Math.max(0, bgAudio.volume - stepVol);
             if (bgAudio.volume <= 0) {
@@ -58,13 +64,14 @@
 
     /* ---- Music toggle button ---- */
     musicToggle.addEventListener('click', function () {
-        if (bgAudio.paused) {
-            fadeIn(800);
+        // Use .playing class as source of truth — bgAudio.paused lags during fadeOut
+        if (!musicToggle.classList.contains('playing')) {
+            fadeIn(150);
             musicToggle.classList.add('playing');
             musicToggle.setAttribute('aria-label', 'Pause music');
             musicToggle.setAttribute('aria-pressed', 'true');
         } else {
-            fadeOut(600);
+            fadeOut(150);
             musicToggle.classList.remove('playing');
             musicToggle.setAttribute('aria-label', 'Play music');
             musicToggle.setAttribute('aria-pressed', 'false');

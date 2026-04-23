@@ -1751,3 +1751,78 @@ body.night-mode .map-directions:hover {
         height: 520px;
     }
 }
+
+/* ============================================================
+   FOOTER
+   ============================================================ */
+
+.site-footer {
+    background-color: #1a1208;
+    padding: 3rem 1.5rem 2.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    text-align: center;
+}
+
+body.night-mode .site-footer {
+    background-color: #06090e;
+}
+
+.footer-names {
+    font-family: 'IM Fell English', serif;
+    font-size: 1.5rem;
+    color: var(--gold);
+    letter-spacing: 0.08em;
+    margin: 0;
+    transition: color 1.5s ease;
+}
+
+body.night-mode .footer-names {
+    color: var(--night-gold);
+}
+
+.footer-rule {
+    width: 60px;
+    height: 1px;
+    background-color: var(--gold);
+    opacity: 0.4;
+    transition: background-color 1.5s ease;
+}
+
+body.night-mode .footer-rule {
+    background-color: var(--night-gold);
+}
+
+.footer-credit {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    text-decoration: none;
+    opacity: 0.3;
+    transition: opacity 0.3s ease;
+}
+
+.footer-credit:hover {
+    opacity: 0.7;
+}
+
+.footer-logo {
+    width: 22px;
+    height: 22px;
+    object-fit: contain;
+    display: block;
+}
+
+.footer-credit span {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.85rem;
+    color: var(--gold-lt);
+    letter-spacing: 0.04em;
+    transition: color 1.5s ease;
+}
+
+body.night-mode .footer-credit span {
+    color: var(--night-gold);
+}

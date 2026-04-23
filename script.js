@@ -66,12 +66,17 @@
     musicToggle.addEventListener('click', function () {
         // Use .playing class as source of truth — bgAudio.paused lags during fadeOut
         if (!musicToggle.classList.contains('playing')) {
-            fadeIn(150);
+            // Call play() synchronously here (gesture context), then set volume
+            clearInterval(fadeInterval);
+            bgAudio.play().then(function () {
+                bgAudio.volume = 0.4;
+            }).catch(function () {});
             musicToggle.classList.add('playing');
             musicToggle.setAttribute('aria-label', 'Pause music');
             musicToggle.setAttribute('aria-pressed', 'true');
         } else {
-            fadeOut(150);
+            clearInterval(fadeInterval);
+            bgAudio.pause();
             musicToggle.classList.remove('playing');
             musicToggle.setAttribute('aria-label', 'Play music');
             musicToggle.setAttribute('aria-pressed', 'false');

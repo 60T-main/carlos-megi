@@ -77,6 +77,20 @@
                 </span>
             </span>
         </button>
+        <!-- ===== LANGUAGE TOGGLE (appears after envelope opens) ===== -->
+        <button
+            class="lang-toggle"
+            id="lang-toggle"
+            aria-label="Switch language"
+            role="switch"
+            aria-checked="false"
+        >
+            <span class="lang-toggle__track">
+                <span class="lang-toggle__thumb"></span>
+                <span class="lang-toggle__label lang-toggle__label--ka">KA</span>
+                <span class="lang-toggle__label lang-toggle__label--es">ES</span>
+            </span>
+        </button>
         <audio
             id="bg-audio"
             src="music.mp3"
@@ -134,10 +148,30 @@
             </div>
             <section class="message" id="message">
                 <div class="message-inner reveal">
-                    <p class="message-eyebrow" data-ka="ჩვენგან თქვენთვის" data-es="De Nosotros Para Vosotros">ჩვენგან თქვენთვის</p>
+                    <p class="message-eyebrow" data-ka="სიყვარულით დაწერილი წიგნი" data-es="Un libro escrito con amor Vosotros">სიყვარულით დაწერილი წიგნი</p>
                     <div class="message-rule"></div>
-                    <h2 class="message-heading" data-ka="ძვირფასო სტუმრებო" data-es="Queridos Invitados">ძვირფასო სტუმრებო</h2>
-                    <p class="message-body" data-ka="ჩვენი სიყვარულის ისტორიას ახალი, ულამაზესი თავი ემატება და ჩვენთვის დიდი ბედნიერებაა, რომ ამ განსაკუთრებულ დღეს თქვენთან ერთად გავიზიარებთ. გვინდა, რომ ეს დღე არა მხოლოდ ჩვენი, არამედ ყველა ჩვენი ახლობლის იყოს." data-es="Un nuevo y hermoso capítulo se añade a nuestra historia de amor, y es nuestra mayor alegría compartir este día especial con vosotros. Queremos que este día sea nuestro, pero también de cada persona que ha estado a nuestro lado.">ჩვენი სიყვარულის ისტორიას ახალი, ულამაზესი თავი ემატება და ჩვენთვის დიდი ბედნიერებაა, რომ ამ განსაკუთრებულ დღეს თქვენთან ერთად ვიზიარებთ. გვინდა, რომ ეს დღე არა მხოლოდ ჩვენი, არამედ ყველა ჩვენი ახლობლის იყოს.</p>
+                    <h2 class="message-heading" data-ka="ჩემო ძვირფასო" data-es="Nuestro querido/a,">ჩემო ძვირფასო</h2>
+                    <p class="message-body" data-ka="თუ ეს მოსაწვევი მიიღე, ეს იმას ნიშნავს, რომ ჩვენთვის განსაკუთრებული ადამიანი ხარ! დააა სიხარულით გვინდა გაცნობო, რომ ჩვენი სიყვარულით დაწერილ წიგნს კიდევ ერთი ახალი, ულამაზესი თავი ემატება!  შენ კი, გვსურს, ამ მნიშვნელოვან და სიყვარულით სავსე დღეს ჩვენს გვერდით იყო, ჩვენი ბედნიერება გაიზიარო! 
+ერთად შევქმნათ დღე, რომელსაც ყოველთვის თბილად და ბედნიერად გავიხსენებთ!
+გელოდებით 24 აგვისტოს, შატო ვარციხეში. 
+
+სიყვარულით, 
+მეგი და კარლოსი" data-es="Si has recibido esta invitación, ¡significa que eres una persona muy especial para nosotros! 
+Y con mucha alegría queremos contarte que a nuestra historia, que hemos  escrito con muchísimo amor, se le añade un nuevo y precioso capítulo. 
+Nos encantaría que en este día tan importante y lleno de cariño, estuvieras a nuestro lado y compartieras nuestra felicidad.
+
+¡Creemos juntos un día que siempre recordaremos con calidez y alegría!
+
+Te esperamos el 24 de agosto, en Chateau Vartsikhe.
+
+Con cariño,">
+                        თუ ეს მოსაწვევი მიიღე, ეს იმას ნიშნავს, რომ ჩვენთვის განსაკუთრებული ადამიანი ხარ! დააა სიხარულით გვინდა გაცნობო, რომ ჩვენი სიყვარულით დაწერილ წიგნს კიდევ ერთი ახალი, ულამაზესი თავი ემატება!  შენ კი, გვსურს, ამ მნიშვნელოვან და სიყვარულით სავსე დღეს ჩვენს გვერდით იყო, ჩვენი ბედნიერება გაიზიარო! 
+ერთად შევქმნათ დღე, რომელსაც ყოველთვის თბილად და ბედნიერად გავიხსენებთ!
+გელოდებით 24 აგვისტოს, შატო ვარციხეში. 
+
+სიყვარულით,
+                    </p>
+                    <p style="margin-top: 2rem" class="message-signature">მეგი &amp; კარლოსი</p>
                     <div class="message-rule"></div>
                     <p class="message-signature">Carlos &amp; Megi</p>
                 </div>
@@ -354,8 +388,8 @@
                 <button
                     class="popup-close"
                     id="popup-close"
-                    data-ka="დახურვა"
-                    data-es="Cerrar"
+                    data-ka="დახურვა ×"
+                    data-es="Cerrar ×"
                 >დახურვა ×</button>
             </div>
         </div>

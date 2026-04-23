@@ -10,6 +10,7 @@
     var pageContent = document.getElementById('page-content');
     var nightToggle = document.getElementById('night-toggle');
     var musicToggle = document.getElementById('music-toggle');
+    var langToggle  = document.getElementById('lang-toggle');
     var bgAudio     = document.getElementById('bg-audio');
 
     /* ---- Audio fade helpers ---- */
@@ -21,10 +22,10 @@
         clearInterval(fadeInterval);
         var steps = 40;
         var stepTime = duration / steps;
-        var stepVol  = 1 / steps;
+        var stepVol  = 0.4 / steps;
         fadeInterval = setInterval(function () {
-            bgAudio.volume = Math.min(1, bgAudio.volume + stepVol);
-            if (bgAudio.volume >= 1) clearInterval(fadeInterval);
+            bgAudio.volume = Math.min(0.4, bgAudio.volume + stepVol);
+            if (bgAudio.volume >= 0.4) clearInterval(fadeInterval);
         }, stepTime);
     }
 
@@ -71,6 +72,32 @@
         }
     });
 
+    /* ---- Language ---- */
+    function setLanguage(lang) {
+        localStorage.setItem('lang', lang);
+        if (lang === 'es') {
+            document.body.classList.add('lang-es');
+            document.documentElement.setAttribute('lang', 'es');
+            langToggle.setAttribute('aria-checked', 'true');
+        } else {
+            document.body.classList.remove('lang-es');
+            document.documentElement.setAttribute('lang', 'ka');
+            langToggle.setAttribute('aria-checked', 'false');
+        }
+        document.querySelectorAll('[data-ka]').forEach(function (el) {
+            var text = lang === 'es' ? el.getAttribute('data-es') : el.getAttribute('data-ka');
+            if (text !== null) el.textContent = text;
+        });
+    }
+
+    /* Restore language preference before paint */
+    setLanguage(localStorage.getItem('lang') || 'ka');
+
+    langToggle.addEventListener('click', function () {
+        var current = localStorage.getItem('lang') || 'ka';
+        setLanguage(current === 'ka' ? 'es' : 'ka');
+    });
+
     /* ---- Restore night mode preference before paint ---- */
     if (localStorage.getItem('nightMode') === '1') {
         document.body.classList.add('night-mode');
@@ -105,6 +132,7 @@
             pageContent.classList.add('content-revealed');
             nightToggle.classList.add('visible');
             musicToggle.classList.add('visible');
+            langToggle.classList.add('visible');
 
             // Auto-start music with fade-in (browser may block until user interaction;
             // the envelope click counts as a gesture so this normally succeeds)
@@ -141,30 +169,30 @@
     /* ---- Timeline popup ---- */
     var popupData = {
         ceremony: {
-            label:    { ka: 'ჯვრისწერა',  es: 'Ceremonia' },
-            title:    { ka: 'ჯვრისწერა',  es: 'Ceremonia' },
+            label:    { ka: 'სტუმრების მიღება',  es: 'Recepción de Invitados' },
+            title:    { ka: 'სტუმრების მიღება',  es: 'Recepción de Invitados' },
             location: 'Chateau Vartsikhe',
             body:     {
-                ka: 'ჯვრისწერა გაიმართება Chateau Vartsikhe-ში. გთხოვთ, 14:00 საათისთვის იყოთ ადგილზე.',
-                es: 'La ceremonia tendrá lugar en Chateau Vartsikhe. Por favor, llegad a las 14:00.'
+                ka: 'ყველა გმირული ამბავი იწყება შეხვედრით. კეთილი იყოს შენი მობრძანება!',
+                es: 'Toda gran aventura comienza con un encuentro. Bienvenido/a!'
             }
         },
         photoshoot: {
-            label:    { ka: 'ფოტოსესია',   es: 'Fotos' },
-            title:    { ka: 'ფოტოსესია',   es: 'Sesión de Fotos' },
+            label:    { ka: 'ხელის მოწერის ცერემონია',   es: 'Ceremonia' },
+            title:    { ka: 'ხელის მოწერის ცერემონია',   es: 'Ceremonia' },
             location: 'Chateau Vartsikhe',
             body:     {
-                ka: 'ქორწილის ფოტოსესია გაიმართება სასახლის მიმდებარე ბაღში.',
-                es: 'La sesión de fotos tendrá lugar en los jardines del castillo.'
+                ka: 'ერთი ბეჭედი, ერთი სიყვარული და ერთი სამუდამო პირობა. შემოგვიერთდით, რათა ვიზეიმოთ ჩვენი გზების გაერთიანება ვარსკვლავების ქვეშ.',
+                es: 'Un anillo, un amor y una promesa eterna. Únete a nosotros para celebrar la unión de nuestros caminos bajo las estrellas.'
             }
         },
         reception: {
-            label:    { ka: 'ვახშამი',     es: 'Recepción' },
-            title:    { ka: 'ვახშამი',     es: 'Recepción' },
+            label:    { ka: 'ვახშამი',     es: 'Banquete' },
+            title:    { ka: 'ვახშამი',     es: 'Banquete' },
             location: 'Chateau Vartsikhe',
             body:     {
-                ka: 'ვახშამი დაიწყება 19:00 საათზე. გთხოვთ, ნებისმიერი დიეტური შეზღუდვის შემთხვევაში გვაცნობოთ.',
-                es: 'La recepción comenzará a las 19:00. Por favor, informadnos de cualquier restricción dietética.'
+                ka: 'დროა ნამდვილი ჰობიტური ნადიმისთვის! მოკალათდით, მოიმარჯვეთ ჩანგლები და ისიამოვნეთ შირის საუკეთესო კერძებით. გპირდებით, აქ არცერთი მუცელი დარჩება მშიერი!',
+                es: '¡Es hora de un auténtico festín hobbit! Pónganse cómodos, preparen sus cubiertos y disfruten de los mejores platos de la Comarca. ¡Prometemos que nadie se quedará con hambre aquí!'
             }
         }
     };

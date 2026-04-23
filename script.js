@@ -29,6 +29,18 @@
         }, stepTime);
     }
 
+    function fadeUp(duration) {
+        // Ramp volume up without calling play() — used when audio is already playing
+        clearInterval(fadeInterval);
+        var steps = 40;
+        var stepTime = duration / steps;
+        var stepVol  = 0.4 / steps;
+        fadeInterval = setInterval(function () {
+            bgAudio.volume = Math.min(0.4, bgAudio.volume + stepVol);
+            if (bgAudio.volume >= 0.4) clearInterval(fadeInterval);
+        }, stepTime);
+    }
+
     function fadeOut(duration, cb) {
         clearInterval(fadeInterval);
         var steps = 20;
@@ -117,10 +129,16 @@
 
         envelope.classList.add('open');
 
+        // Start audio immediately inside the gesture window (volume 0 so it's silent).
+        // Browsers only grant autoplay permission synchronously on a user gesture;
+        // calling play() inside a setTimeout loses that permission on many devices.
+        bgAudio.volume = 0;
+        bgAudio.play().catch(function () {});
+
         // Show background immediately through the opening flaps
         pageContent.classList.add('bg-visible');
 
-        // After flaps clear: unlock scroll, reveal content, show night toggle
+        // After flaps clear: unlock scroll, reveal content, show toggles, fade volume up
         setTimeout(function () {
             document.documentElement.style.scrollbarGutter = 'stable';
             document.body.style.overflow = 'auto';
@@ -134,9 +152,8 @@
             musicToggle.classList.add('visible');
             langToggle.classList.add('visible');
 
-            // Auto-start music with fade-in (browser may block until user interaction;
-            // the envelope click counts as a gesture so this normally succeeds)
-            fadeIn(3000);
+            // Fade volume up — audio is already playing from the gesture above
+            fadeUp(3000);
             musicToggle.classList.add('playing');
             musicToggle.setAttribute('aria-label', 'Pause music');
             musicToggle.setAttribute('aria-pressed', 'true');

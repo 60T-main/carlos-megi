@@ -954,7 +954,7 @@ body.night-mode .message-heading {
 
 .message-body {
     font-family: 'Noto Serif Georgian', 'Cormorant Garamond', serif;
-    font-size: 1rem;
+    font-size: 0.9rem;
     line-height: 2;
     color: var(--text-soft);
     transition: color 1.5s ease;

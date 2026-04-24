@@ -198,8 +198,8 @@
     /* ---- Timeline popup ---- */
     var popupData = {
         ceremony: {
-            label:    { ka: 'სტუმრების მიღება',  es: 'Recepción de Invitados' },
-            title:    { ka: 'სტუმრების მიღება',  es: 'Recepción de Invitados' },
+            label:    { ka: 'სტუმრების მიღება',  es: 'Recepción' },
+            title:    { ka: 'სტუმრების მიღება',  es: 'Recepción' },
             location: 'Chateau Vartsikhe',
             body:     {
                 ka: 'ყველა გმირული ამბავი იწყება შეხვედრით. კეთილი იყოს შენი მობრძანება!',
@@ -216,8 +216,8 @@
             }
         },
         reception: {
-            label:    { ka: 'ვახშამი',     es: 'Banquete' },
-            title:    { ka: 'ვახშამი',     es: 'Banquete' },
+            label:    { ka: 'ვახშამი',     es: 'Banquete y fiesta' },
+            title:    { ka: 'ვახშამი',     es: 'Banquete y fiesta' },
             location: 'Chateau Vartsikhe',
             body:     {
                 ka: 'დროა ნამდვილი ჰობიტური ნადიმისთვის! მოკალათდით, მოიმარჯვეთ ჩანგლები და ისიამოვნეთ შირის საუკეთესო კერძებით. გპირდებით, აქ არცერთი მუცელი დარჩება მშიერი!',

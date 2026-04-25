@@ -296,24 +296,16 @@ Te esperamos el 24 de agosto, en Chateau Vartsikhe.">
                         </div>
                         <div class="rsvp-field rsvp-guests-field" id="rsvp-guests-field" hidden>
                             <p class="rsvp-label" data-ka="სტუმრების რაოდენობა" data-es="Número de invitados">სტუმრების რაოდენობა</p>
-                            <div class="rsvp-radio-group">
-                                <label class="rsvp-radio-card rsvp-radio-card--sm">
-                                    <input type="radio" name="guests" value="1">
-                                    <span class="rsvp-radio-text">1</span>
-                                </label>
-                                <label class="rsvp-radio-card rsvp-radio-card--sm">
-                                    <input type="radio" name="guests" value="2">
-                                    <span class="rsvp-radio-text">2</span>
-                                </label>
-                                <label class="rsvp-radio-card rsvp-radio-card--sm">
-                                    <input type="radio" name="guests" value="3">
-                                    <span class="rsvp-radio-text">3</span>
-                                </label>
-                                <label class="rsvp-radio-card rsvp-radio-card--sm">
-                                    <input type="radio" name="guests" value="4+">
-                                    <span class="rsvp-radio-text">4+</span>
-                                </label>
-                            </div>
+                            <input
+                                class="rsvp-input rsvp-input--guests"
+                                type="number"
+                                id="rsvp-guests"
+                                name="guests"
+                                min="1"
+                                step="1"
+                                inputmode="numeric"
+                                autocomplete="off"
+                            >
                         </div>
                         <button
                             class="rsvp-submit"
@@ -321,6 +313,12 @@ Te esperamos el 24 de agosto, en Chateau Vartsikhe.">
                             data-ka="გაგზავნა"
                             data-es="Enviar"
                         >გაგზავნა</button>
+                        <p
+                            class="rsvp-status"
+                            id="rsvp-status"
+                            aria-live="polite"
+                            hidden
+                        ></p>
                     </form>
                     <!-- Thank-you state -->
                     <div class="rsvp-thanks" id="rsvp-thanks" hidden>

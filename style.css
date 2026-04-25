@@ -1530,6 +1530,10 @@ body.night-mode .rsvp-radio-text {
     animation: rsvpFadeIn 0.35s ease;
 }
 
+.rsvp-input--guests {
+    max-width: 140px;
+}
+
 @keyframes rsvpFadeIn {
     from { opacity: 0; transform: translateY(8px); }
     to   { opacity: 1; transform: translateY(0); }
@@ -1570,6 +1574,35 @@ body.night-mode .rsvp-submit {
     background-color: rgba(14, 21, 32, 0.55);
     border-color: rgba(212, 170, 92, 0.5);
     box-shadow: 0 2px 18px rgba(212, 170, 92, 0.12), inset 0 1px 0 rgba(255,255,255,0.06);
+}
+
+.rsvp-submit:disabled {
+    cursor: not-allowed;
+    opacity: 0.55;
+    transform: none;
+}
+
+.rsvp-submit:disabled:hover {
+    background-color: rgba(245, 240, 228, 0.55);
+    transform: none;
+}
+
+body.night-mode .rsvp-submit:disabled:hover {
+    background-color: rgba(14, 21, 32, 0.55);
+}
+
+.rsvp-status {
+    margin-top: -0.8rem;
+    text-align: center;
+    font-family: 'Noto Serif Georgian', 'Cormorant Garamond', serif;
+    font-size: 0.86rem;
+    line-height: 1.8;
+    color: var(--text-soft);
+    transition: color 1.5s ease;
+}
+
+body.night-mode .rsvp-status {
+    color: var(--night-text-soft);
 }
 
 /* Thank-you state */

@@ -275,26 +275,128 @@
     var rsvpThanks      = document.getElementById('rsvp-thanks');
     var rsvpThanksBody  = document.getElementById('rsvp-thanks-body');
     var rsvpGuestsField = document.getElementById('rsvp-guests-field');
+    var rsvpGuestsInput = document.getElementById('rsvp-guests');
+    var rsvpStatus      = document.getElementById('rsvp-status');
+    var rsvpSubmitBtn   = rsvpForm ? rsvpForm.querySelector('button[type="submit"]') : null;
+
+    var RSVP_API_URL    = 'https://weddsites-backend.vercel.app/api/rsvp';
+    var RSVP_PROJECT_ID = 'megi-carlos-2026';
+    var WEDDING_DATE    = new Date(2026, 7, 24); // 24 Aug 2026, local timezone midnight
+    var isSubmitting    = false;
+
+    function setRsvpStatus(key) {
+        var lang = currentLang();
+        var textMap = {
+            sending: {
+                ka: 'იგზავნება...',
+                es: 'Enviando...'
+            },
+            sent: {
+                ka: 'მადლობა! თქვენი პასუხი წარმატებით დაფიქსირდა.',
+                es: 'Gracias. Tu respuesta se ha enviado correctamente.'
+            },
+            failed: {
+                ka: 'შეცდომა დაფიქსირდა. გთხოვთ, სცადოთ თავიდან.',
+                es: 'Ocurrió un error. Por favor, inténtalo de nuevo.'
+            },
+            closed: {
+                ka: 'RSVP ფორმა დაიხურა, რადგან ქორწილის თარიღი დადგა.',
+                es: 'El formulario RSVP está cerrado porque la fecha de la boda ya llegó.'
+            },
+            chooseGuests: {
+                ka: 'გთხოვთ, შეიყვანოთ სტუმრების რაოდენობა.',
+                es: 'Por favor, introduce el número de invitados.'
+            }
+        };
+        if (!rsvpStatus || !textMap[key]) return;
+        rsvpStatus.hidden = false;
+        rsvpStatus.textContent = textMap[key][lang] || textMap[key].ka;
+    }
+
+    function isWeddingDateReached() {
+        return new Date() >= WEDDING_DATE;
+    }
+
+    function setFormDisabled(disabled) {
+        if (!rsvpForm) return;
+        rsvpForm.querySelectorAll('input, button, select, textarea').forEach(function (field) {
+            field.disabled = disabled;
+        });
+    }
+
+    function closeRsvpIfWeddingDateReached() {
+        if (isWeddingDateReached()) {
+            setFormDisabled(true);
+            setRsvpStatus('closed');
+            return true;
+        }
+        return false;
+    }
+
+    function splitFullName(fullName) {
+        var cleaned = (fullName || '').replace(/\s+/g, ' ').trim();
+        if (!cleaned) {
+            return { name: '', surname: '' };
+        }
+        var parts = cleaned.split(' ');
+        var firstName = parts.shift() || '';
+        return {
+            name: firstName,
+            surname: parts.join(' ')
+        };
+    }
+
+    function parseGuestCount(rawGuests) {
+        if (!rawGuests) return undefined;
+        var parsed = Number(rawGuests);
+        if (Number.isNaN(parsed)) return undefined;
+        if (!Number.isInteger(parsed) || parsed < 1) return undefined;
+        return parsed;
+    }
+
+    async function submitRsvp(payload) {
+        var response = await fetch(RSVP_API_URL, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+        });
+        var result = await response.json();
+        if (!response.ok) {
+            throw new Error((result && result.error) || 'RSVP submit failed');
+        }
+        return result;
+    }
 
     // Show / hide guest count based on attendance answer
     document.querySelectorAll('input[name="attending"]').forEach(function (radio) {
         radio.addEventListener('change', function () {
             if (this.value === 'yes') {
                 rsvpGuestsField.removeAttribute('hidden');
+                if (rsvpGuestsInput) rsvpGuestsInput.required = true;
             } else {
                 rsvpGuestsField.setAttribute('hidden', '');
-                document.querySelectorAll('input[name="guests"]').forEach(function (r) {
-                    r.checked = false;
-                });
+                if (rsvpGuestsInput) {
+                    rsvpGuestsInput.value = '';
+                    rsvpGuestsInput.required = false;
+                }
             }
         });
     });
 
-    rsvpForm.addEventListener('submit', function (e) {
+    closeRsvpIfWeddingDateReached();
+
+    rsvpForm.addEventListener('submit', async function (e) {
         e.preventDefault();
 
-        var name      = (document.getElementById('rsvp-name').value || '').trim();
+        if (isSubmitting || closeRsvpIfWeddingDateReached()) return;
+
+        var fullName  = (document.getElementById('rsvp-name').value || '').trim();
+        var nameParts = splitFullName(fullName);
+        var name      = nameParts.name;
+        var surname   = nameParts.surname;
         var attending = (document.querySelector('input[name="attending"]:checked') || {}).value;
+        var guestRaw  = rsvpGuestsInput ? rsvpGuestsInput.value : '';
+        var guestCount = parseGuestCount(guestRaw);
         var lang      = currentLang();
 
         if (!name) {
@@ -302,6 +404,33 @@
             return;
         }
         if (!attending) return;
+        if (attending === 'yes' && guestCount === undefined) {
+            setRsvpStatus('chooseGuests');
+            if (rsvpGuestsInput) rsvpGuestsInput.focus();
+            return;
+        }
+
+        isSubmitting = true;
+        if (rsvpSubmitBtn) rsvpSubmitBtn.disabled = true;
+        setRsvpStatus('sending');
+
+        try {
+            await submitRsvp({
+                projectId: RSVP_PROJECT_ID,
+                name: name,
+                surname: surname,
+                attendance: attending,
+                guestCount: attending === 'yes' ? guestCount : undefined
+            });
+
+            setRsvpStatus('sent');
+        } catch (err) {
+            console.error(err);
+            setRsvpStatus('failed');
+            isSubmitting = false;
+            if (rsvpSubmitBtn) rsvpSubmitBtn.disabled = false;
+            return;
+        }
 
         var msg;
         if (attending === 'yes') {
@@ -317,6 +446,7 @@
         rsvpThanksBody.textContent = msg;
         rsvpForm.setAttribute('hidden', '');
         rsvpThanks.removeAttribute('hidden');
+        isSubmitting = false;
     });
 
 }());
